@@ -916,7 +916,7 @@ function showTab(id) {
   event.target.classList.add('active');
   if (id === 'map') {
     setTimeout(function() {
-      if (typeof tryInitMap === 'function') tryInitMap();
+      if (typeof tryInitMap === 'function') { setTimeout(tryInitMap, 200); }
       else if (typeof mapInst !== 'undefined' && mapInst) mapInst.invalidateSize();
     }, 120);
   }
@@ -1504,10 +1504,10 @@ document.addEventListener('keydown', e => {
 
 <!-- ===== MAP TAB ===== -->
 <!-- ===== MAP TAB ===== -->
-<div id="tab-map" class="tab-content" style="padding:0;position:relative;height:calc(100vh - 115px);min-height:500px;overflow:hidden;">
+<div id="tab-map" class="tab-content" style="padding:0;display:flex;flex-direction:column;height:calc(100vh - 115px);min-height:520px;overflow:hidden;position:relative;">
 
   <!-- Controls bar -->
-  <div style="position:absolute;top:0;left:0;right:0;z-index:1000;background:#111827;
+  <div style="position:relative;z-index:1000;background:#111827;flex-shrink:0;
     border-bottom:1px solid #3a4a6b;display:flex;align-items:center;flex-wrap:wrap;
     gap:8px;padding:9px 13px;">
     <span style="color:#f59e0b;font-weight:700;font-size:14px;">&#128205; Victoria Camera Map</span>
@@ -1533,7 +1533,7 @@ document.addEventListener('keydown', e => {
   </div>
 
   <!-- Map render target -->
-  <div id="mapCanvas" style="position:absolute;top:48px;left:0;right:0;bottom:0;"></div>
+  <div id="mapCanvas" style="flex:1;width:100%;background:#1a2035;min-height:400px;"></div>
 
   <!-- Legend -->
   <div style="position:absolute;bottom:20px;right:8px;z-index:1000;
@@ -1562,26 +1562,45 @@ var mapNeedsInit=false;
 function tryInitMap(){
   if(mapReady) return;
   if(typeof L==='undefined'){
-    document.getElementById('mStatus').textContent='Leaflet loading...';
-    setTimeout(tryInitMap, 300);
+    document.getElementById('mStatus').textContent='Waiting for Leaflet CDN...';
+    setTimeout(tryInitMap, 400);
+    return;
+  }
+  var canvas = document.getElementById('mapCanvas');
+  // Force a layout recalculation before measuring
+  canvas.style.display='block';
+  var h = canvas.offsetHeight;
+  if(h < 10){
+    // Container not sized yet — wait a frame
+    requestAnimationFrame(function(){ setTimeout(tryInitMap, 100); });
     return;
   }
   document.getElementById('mStatus').textContent='';
-  mapInst=L.map('mapCanvas',{center:[-37.8136,144.9631],zoom:10,zoomControl:true});
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_matter/{z}/{x}/{y}{r}.png',{
-    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com">CARTO</a>',
-    subdomains:'abcd',maxZoom:19
+  mapInst = L.map('mapCanvas', {
+    center: [-37.8136, 144.9631],
+    zoom: 10,
+    zoomControl: true,
+    preferCanvas: true
+  });
+  // Primary: CartoDB dark tiles. Fallback: standard OSM.
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_matter/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19,
+    errorTileUrl: 'data:image/png;base64,iVBORw0KGgo='
   }).addTo(mapInst);
-  layF=buildCluster(MAP_F,'#f59e0b','Fixed');
-  layM=buildCluster(MAP_M,'#3b82f6','Mobile');
-  layD=buildCluster(MAP_D,'#10b981','DDS');
+  layF = buildCluster(MAP_F,'#f59e0b','Fixed');
+  layM = buildCluster(MAP_M,'#3b82f6','Mobile');
+  layD = buildCluster(MAP_D,'#10b981','DDS');
   layF.addTo(mapInst); layM.addTo(mapInst); layD.addTo(mapInst);
   document.getElementById('mTogF').onchange=function(){this.checked?mapInst.addLayer(layF):mapInst.removeLayer(layF);};
   document.getElementById('mTogM').onchange=function(){this.checked?mapInst.addLayer(layM):mapInst.removeLayer(layM);};
   document.getElementById('mTogD').onchange=function(){this.checked?mapInst.addLayer(layD):mapInst.removeLayer(layD);};
   document.getElementById('mSuburb').addEventListener('keydown',function(e){if(e.key==='Enter')mapJump();});
-  mapReady=true;
-  setTimeout(function(){mapInst.invalidateSize();},100);
+  mapReady = true;
+  // Multiple invalidateSize calls to ensure proper rendering
+  setTimeout(function(){ mapInst.invalidateSize(true); }, 200);
+  setTimeout(function(){ mapInst.invalidateSize(true); }, 600);
 }
 
 function buildCluster(data,col,typeName){
