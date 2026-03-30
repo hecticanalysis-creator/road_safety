@@ -36,7 +36,7 @@
   main { padding: 24px; max-width: 1400px; margin: 0 auto; }
   .tab-content { display: none; }
   .tab-content.active { display: block; }
-  #tab-map.tab-content.active { display: flex; flex-direction: column; }
+  /* map tab uses absolute children, no flex needed */
   
   h2 { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
   h3 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 12px; }
@@ -160,135 +160,73 @@
         white-space:nowrap; scrollbar-width:none; padding-bottom:2px; }
   nav::-webkit-scrollbar { display:none; }
   nav button { white-space:nowrap; flex-shrink:0; }
-  @media(max-width:768px){
-    header { padding:10px 14px; }
-    .logo { font-size:13px; }
-    .sub  { font-size:10px; }
-    nav button { padding:8px 11px; font-size:11px; }
-    .tab-content { padding:14px !important; }
-    .stats-grid { grid-template-columns:1fr 1fr !important; }
-    .chart-grid  { grid-template-columns:1fr !important; }
-    .stat-card .value { font-size:20px; }
-    h2 { font-size:15px; }
-  }
-  @media(max-width:480px){
-    .stats-grid { grid-template-columns:1fr !important; }
-    nav button { padding:6px 9px; font-size:10px; }
-  }
+  
+  
   /* ── Revenue tab ────────────────────────────────────────────── */
-  .rev-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
-  @media(max-width:768px){ .rev-grid { grid-template-columns:1fr; } }
-  .rev-table { width:100%; border-collapse:collapse; font-size:12px; }
-  .rev-table th { background:rgba(255,255,255,0.06); color:var(--text); padding:8px 10px; text-align:left; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.4px; }
-  .rev-table td { padding:7px 10px; border-bottom:1px solid var(--border); color:var(--text); }
-  .rev-table tr:hover td { background:rgba(255,255,255,0.04); }
+  
+  
+  
+  
+  
+  
   /* ── Search improvements ────────────────────────────────────── */
-  .sf-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; align-items:center; }
-  .sf-row select,.sf-row input { background:var(--bg); border:1px solid var(--border);
-    border-radius:6px; color:var(--text); padding:7px 10px; font-size:13px; }
-  .sf-row select:focus,.sf-row input:focus { outline:none; border-color:var(--accent); }
+  
+  
+  
 
   
   /* ── Mobile responsive ──────────────────────────────────────── */
-  nav { overflow-x:auto; -webkit-overflow-scrolling:touch;
-        white-space:nowrap; scrollbar-width:none; padding-bottom:2px; }
-  nav::-webkit-scrollbar { display:none; }
-  nav button { white-space:nowrap; flex-shrink:0; }
-  @media(max-width:768px){
-    header { padding:10px 14px; }
-    .logo { font-size:13px; }
-    .sub  { font-size:10px; }
-    nav button { padding:8px 11px; font-size:11px; }
-    .tab-content { padding:14px !important; }
-    .stats-grid { grid-template-columns:1fr 1fr !important; }
-    .chart-grid  { grid-template-columns:1fr !important; }
-    .stat-card .value { font-size:20px; }
-    h2 { font-size:15px; }
-  }
-  @media(max-width:480px){
-    .stats-grid { grid-template-columns:1fr !important; }
-    nav button { padding:6px 9px; font-size:10px; }
-  }
+
+  
+  
   /* ── Revenue tab ────────────────────────────────────────────── */
-  .rev-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
-  @media(max-width:768px){ .rev-grid { grid-template-columns:1fr; } }
-  .rev-table { width:100%; border-collapse:collapse; font-size:12px; }
-  .rev-table th { background:rgba(255,255,255,0.06); color:var(--text); padding:8px 10px; text-align:left; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.4px; }
-  .rev-table td { padding:7px 10px; border-bottom:1px solid var(--border); color:var(--text); }
-  .rev-table tr:hover td { background:rgba(255,255,255,0.04); }
+  
+  
+  
+  
+  
+  
   /* ── Search improvements ────────────────────────────────────── */
-  .sf-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; align-items:center; }
-  .sf-row select,.sf-row input { background:var(--bg); border:1px solid var(--border);
-    border-radius:6px; color:var(--text); padding:7px 10px; font-size:13px; }
-  .sf-row select:focus,.sf-row input:focus { outline:none; border-color:var(--accent); }
+  
+  
+  
 
   
   /* ── Mobile responsive ──────────────────────────────────────── */
-  nav { overflow-x:auto; -webkit-overflow-scrolling:touch;
-        white-space:nowrap; scrollbar-width:none; padding-bottom:2px; }
-  nav::-webkit-scrollbar { display:none; }
-  nav button { white-space:nowrap; flex-shrink:0; }
-  @media(max-width:768px){
-    header { padding:10px 14px; }
-    .logo { font-size:13px; }
-    .sub  { font-size:10px; }
-    nav button { padding:8px 11px; font-size:11px; }
-    .tab-content { padding:14px !important; }
-    .stats-grid { grid-template-columns:1fr 1fr !important; }
-    .chart-grid  { grid-template-columns:1fr !important; }
-    .stat-card .value { font-size:20px; }
-    h2 { font-size:15px; }
-  }
-  @media(max-width:480px){
-    .stats-grid { grid-template-columns:1fr !important; }
-    nav button { padding:6px 9px; font-size:10px; }
-  }
+
+  
+  
   /* ── Revenue tab ────────────────────────────────────────────── */
-  .rev-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
-  @media(max-width:768px){ .rev-grid { grid-template-columns:1fr; } }
-  .rev-table { width:100%; border-collapse:collapse; font-size:12px; }
-  .rev-table th { background:rgba(255,255,255,0.06); color:var(--text); padding:8px 10px; text-align:left; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.4px; }
-  .rev-table td { padding:7px 10px; border-bottom:1px solid var(--border); color:var(--text); }
-  .rev-table tr:hover td { background:rgba(255,255,255,0.04); }
+  
+  
+  
+  
+  
+  
   /* ── Search improvements ────────────────────────────────────── */
-  .sf-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; align-items:center; }
-  .sf-row select,.sf-row input { background:var(--bg); border:1px solid var(--border);
-    border-radius:6px; color:var(--text); padding:7px 10px; font-size:13px; }
-  .sf-row select:focus,.sf-row input:focus { outline:none; border-color:var(--accent); }
+  
+  
+  
 
   
   /* ── Mobile responsive ──────────────────────────────────────── */
-  nav { overflow-x:auto; -webkit-overflow-scrolling:touch;
-        white-space:nowrap; scrollbar-width:none; padding-bottom:2px; }
-  nav::-webkit-scrollbar { display:none; }
-  nav button { white-space:nowrap; flex-shrink:0; }
-  @media(max-width:768px){
-    header { padding:10px 14px; }
-    .logo { font-size:13px; }
-    .sub  { font-size:10px; }
-    nav button { padding:8px 11px; font-size:11px; }
-    .tab-content { padding:14px !important; }
-    .stats-grid { grid-template-columns:1fr 1fr !important; }
-    .chart-grid  { grid-template-columns:1fr !important; }
-    .stat-card .value { font-size:20px; }
-    h2 { font-size:15px; }
-  }
+
+  
   @media(max-width:480px){
     .stats-grid { grid-template-columns:1fr !important; }
     nav button { padding:6px 9px; font-size:10px; }
   }
   /* ── Revenue tab ────────────────────────────────────────────── */
-  .rev-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
+  
   @media(max-width:768px){ .rev-grid { grid-template-columns:1fr; } }
-  .rev-table { width:100%; border-collapse:collapse; font-size:12px; }
-  .rev-table th { background:rgba(255,255,255,0.06); color:var(--text); padding:8px 10px; text-align:left; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.4px; }
-  .rev-table td { padding:7px 10px; border-bottom:1px solid var(--border); color:var(--text); }
+  
+  
+  
   .rev-table tr:hover td { background:rgba(255,255,255,0.04); }
   /* ── Search improvements ────────────────────────────────────── */
-  .sf-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; align-items:center; }
-  .sf-row select,.sf-row input { background:var(--bg); border:1px solid var(--border);
-    border-radius:6px; color:var(--text); padding:7px 10px; font-size:13px; }
-  .sf-row select:focus,.sf-row input:focus { outline:none; border-color:var(--accent); }
+  
+  
+  
 
   </style>
   <!-- Leaflet map (loaded unconditionally so it's ready when tab opens) -->
@@ -318,7 +256,7 @@
   <button onclick="showTab('howit')">How It Works</button>
   <button onclick="showTab('search')">🔍 Search by Suburb</button>
   <button onclick="showTab('revenue')">&#128184; Revenue Stream</button>
-  <button onclick="showTab('map')">🗺;&#65039; Camera Map</button>
+  <button onclick="showTab('map')">🗺️ Camera Map</button>
 </nav>
 
 <main>
@@ -951,7 +889,7 @@ function doSearch(){
   }).join('');
   if(hits.length>150)document.getElementById('srchResults').innerHTML+=`<div style="color:var(--muted);font-size:12px;padding:10px;">Showing first 150 of ${hits.length} results — refine your search.</div>`;
 }
-<\/script>
+</script>
 </div>
 
 
@@ -1293,16 +1231,16 @@ function doSearch(raw) {
 }
 
 function clearSearch() {
-  document.getElementById('searchInput').value = '';
+  document.getElementById('srchQ').value = '';
   doSearch('');
-  document.getElementById('searchInput').focus();
+  document.getElementById('srchQ').focus();
 }
 
 // Allow keyboard shortcut: / focuses the search box when on that tab
 document.addEventListener('keydown', e => {
   if (e.key === '/' && document.getElementById('tab-search').classList.contains('active')) {
     e.preventDefault();
-    document.getElementById('searchInput').focus();
+    document.getElementById('srchQ').focus();
   }
 });
 
@@ -1557,256 +1495,11 @@ document.addEventListener('keydown', e => {
     }
   });
 })();
-<\/script>
+</script>
 </div>
 
 
 <!-- ===== MAP TAB ===== -->
-<div id="tab-revenue" class="tab-content">
-<h2>&#128184; Revenue Stream</h2>
-<p class="section-desc">Fine revenue generated by Victoria's Road Safety Camera Program. Data from Q4 2024-25 (April-June 2025). Note: not all revenue goes to government — road operators receive a portion of highway fines.</p>
-
-<div class="stats-grid" style="margin-bottom:20px;">
-  <div class="stat-card"><div class="label">Q4 2024-25 Total Revenue</div><div class="value" style="font-size:22px;">$108.7M</div><div style="color:var(--muted);font-size:11px;">Apr - Jun 2025</div></div>
-  <div class="stat-card"><div class="label">Estimated Annual Revenue</div><div class="value" style="font-size:22px;">$435M+</div><div style="color:var(--muted);font-size:11px;">Based on Q4 × 4</div></div>
-  <div class="stat-card"><div class="label">Q4 Total Infringements</div><div class="value blue">322,762</div><div style="color:var(--muted);font-size:11px;">Across all systems</div></div>
-  <div class="stat-card"><div class="label">Average Fine Amount</div><div class="value">$336</div><div style="color:var(--muted);font-size:11px;">Per infringement</div></div>
-</div>
-
-<div class="rev-grid">
-  <div style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px;">
-    <h3>Revenue by Camera System (Q4 2024-25)</h3>
-    <p class="section-desc">Fine dollars generated per enforcement system</p>
-    <canvas id="chartRevPie" style="max-height:300px;"></canvas>
-  </div>
-  <div style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px;">
-    <h3>Infringements by System</h3>
-    <p class="section-desc">Number of infringements per system type</p>
-    <canvas id="chartRevBar" style="max-height:300px;"></canvas>
-  </div>
-</div>
-
-<div style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:20px;">
-  <h3>System Revenue Breakdown</h3>
-  <div style="overflow-x:auto;">
-  <table class="rev-table">
-    <thead><tr><th>System</th><th style="text-align:right;">Infringements</th><th style="text-align:right;">Fines ($)</th><th style="text-align:right;">Avg Fine</th><th style="text-align:right;">% Share</th></tr></thead>
-    <tbody><tr>
-      <td>Speed And Red-Light Intersections</td>
-      <td style="text-align:right;">119,995</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$45,765,314</td>
-      <td style="text-align:right;">$381</td>
-      <td style="text-align:right;color:var(--muted);">42.1%</td>
-    </tr><tr>
-      <td>Citylink</td>
-      <td style="text-align:right;">13,253</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$4,295,210</td>
-      <td style="text-align:right;">$324</td>
-      <td style="text-align:right;color:var(--muted);">4.0%</td>
-    </tr><tr>
-      <td>Eastlink</td>
-      <td style="text-align:right;">10,453</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$3,043,978</td>
-      <td style="text-align:right;">$291</td>
-      <td style="text-align:right;color:var(--muted);">2.8%</td>
-    </tr><tr>
-      <td>Geelong Road</td>
-      <td style="text-align:right;">8,049</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$2,402,248</td>
-      <td style="text-align:right;">$298</td>
-      <td style="text-align:right;color:var(--muted);">2.2%</td>
-    </tr><tr>
-      <td>Hume Freeway</td>
-      <td style="text-align:right;">10,191</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$3,075,312</td>
-      <td style="text-align:right;">$301</td>
-      <td style="text-align:right;color:var(--muted);">2.8%</td>
-    </tr><tr>
-      <td>Peninsula Link</td>
-      <td style="text-align:right;">8,467</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$2,529,463</td>
-      <td style="text-align:right;">$298</td>
-      <td style="text-align:right;color:var(--muted);">2.3%</td>
-    </tr><tr>
-      <td>Western Ring Road</td>
-      <td style="text-align:right;">2,151</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$684,562</td>
-      <td style="text-align:right;">$318</td>
-      <td style="text-align:right;color:var(--muted);">0.6%</td>
-    </tr><tr>
-      <td>Monash</td>
-      <td style="text-align:right;">899</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$294,809</td>
-      <td style="text-align:right;">$327</td>
-      <td style="text-align:right;color:var(--muted);">0.3%</td>
-    </tr><tr>
-      <td>Distracted Driver Seatbelt</td>
-      <td style="text-align:right;">18,097</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$8,606,807</td>
-      <td style="text-align:right;">$475</td>
-      <td style="text-align:right;color:var(--muted);">7.9%</td>
-    </tr><tr>
-      <td>Mobile</td>
-      <td style="text-align:right;">131,207</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$37,990,393</td>
-      <td style="text-align:right;">$289</td>
-      <td style="text-align:right;color:var(--muted);">35.0%</td>
-    </tr></tbody>
-    <tfoot><tr style="font-weight:700;border-top:2px solid var(--border);">
-      <td>TOTAL</td><td style="text-align:right;">322,762</td>
-      <td style="text-align:right;color:var(--accent);">$108,688,096</td>
-      <td style="text-align:right;">$336</td>
-      <td style="text-align:right;">100%</td>
-    </tr></tfoot>
-  </table>
-  </div>
-</div>
-
-<div style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px;">
-  <h3>Top 15 Camera Sites by Revenue (Q4 2024-25)</h3>
-  <div style="overflow-x:auto;">
-  <table class="rev-table">
-    <thead><tr><th>#</th><th>Camera Site</th><th style="text-align:right;">Infr.</th><th style="text-align:right;">Fines ($)</th><th style="text-align:right;">Avg Fine</th><th style="min-width:80px;">Share</th></tr></thead>
-    <tbody><tr>
-      <td style="color:var(--muted);">1</td>
-      <td style="max-width:260px;word-break:break-word;">TOTAL INFRINGEMENTS ISSUED FOR FOURTH QUARTER 2024-25 (April to J</td>
-      <td style="text-align:right;">322,762</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$108,688,096</td>
-      <td style="text-align:right;color:var(--muted);">$336</td>
-      <td style="min-width:80px;"><div style="height:8px;border-radius:4px;background:var(--accent);width:100%;min-width:4px;"></div></td>
-    </tr><tr>
-      <td style="color:var(--muted);">2</td>
-      <td style="max-width:260px;word-break:break-word;">At The Intersection Of Rosanna Road and Darebin Street, Heidelber</td>
-      <td style="text-align:right;">6,901</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$2,116,752</td>
-      <td style="text-align:right;color:var(--muted);">$306</td>
-      <td style="min-width:80px;"><div style="height:8px;border-radius:4px;background:var(--accent);width:1%;min-width:4px;"></div></td>
-    </tr><tr>
-      <td style="color:var(--muted);">3</td>
-      <td style="max-width:260px;word-break:break-word;">At The Intersection Of Flinders Street And William Street, Melbou</td>
-      <td style="text-align:right;">3,585</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$1,436,355</td>
-      <td style="text-align:right;color:var(--muted);">$400</td>
-      <td style="min-width:80px;"><div style="height:8px;border-radius:4px;background:var(--accent);width:1%;min-width:4px;"></div></td>
-    </tr><tr>
-      <td style="color:var(--muted);">4</td>
-      <td style="max-width:260px;word-break:break-word;">At The Intersection Of Fitzroy Street and Lakeside Drive, St Kild</td>
-      <td style="text-align:right;">4,660</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$1,430,686</td>
-      <td style="text-align:right;color:var(--muted);">$307</td>
-      <td style="min-width:80px;"><div style="height:8px;border-radius:4px;background:var(--accent);width:1%;min-width:4px;"></div></td>
-    </tr><tr>
-      <td style="color:var(--muted);">5</td>
-      <td style="max-width:260px;word-break:break-word;">At The Intersection Of Warrigal Road and Batesford Road, Chadston</td>
-      <td style="text-align:right;">4,326</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$1,282,306</td>
-      <td style="text-align:right;color:var(--muted);">$296</td>
-      <td style="min-width:80px;"><div style="height:8px;border-radius:4px;background:var(--accent);width:1%;min-width:4px;"></div></td>
-    </tr><tr>
-      <td style="color:var(--muted);">6</td>
-      <td style="max-width:260px;word-break:break-word;">At The Intersection Of Ballarat Road and Approximately 40m Southe</td>
-      <td style="text-align:right;">3,350</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$1,078,286</td>
-      <td style="text-align:right;color:var(--muted);">$321</td>
-      <td style="min-width:80px;"><div style="height:8px;border-radius:4px;background:var(--accent);width:0%;min-width:4px;"></div></td>
-    </tr><tr>
-      <td style="color:var(--muted);">7</td>
-      <td style="max-width:260px;word-break:break-word;">At The Intersection Of Ballarat Road and Approximately 40m Southe</td>
-      <td style="text-align:right;">3,373</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$1,077,350</td>
-      <td style="text-align:right;color:var(--muted);">$319</td>
-      <td style="min-width:80px;"><div style="height:8px;border-radius:4px;background:var(--accent);width:0%;min-width:4px;"></div></td>
-    </tr><tr>
-      <td style="color:var(--muted);">8</td>
-      <td style="max-width:260px;word-break:break-word;">At The Intersection Of Plenty Road and Ambrose Treacy Drive, Bund</td>
-      <td style="text-align:right;">2,927</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$1,062,646</td>
-      <td style="text-align:right;color:var(--muted);">$363</td>
-      <td style="min-width:80px;"><div style="height:8px;border-radius:4px;background:var(--accent);width:0%;min-width:4px;"></div></td>
-    </tr><tr>
-      <td style="color:var(--muted);">9</td>
-      <td style="max-width:260px;word-break:break-word;">At The Intersection Of Geelong Road and Barkly Street, Footscray </td>
-      <td style="text-align:right;">2,937</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$936,745</td>
-      <td style="text-align:right;color:var(--muted);">$318</td>
-      <td style="min-width:80px;"><div style="height:8px;border-radius:4px;background:var(--accent);width:0%;min-width:4px;"></div></td>
-    </tr><tr>
-      <td style="color:var(--muted);">10</td>
-      <td style="max-width:260px;word-break:break-word;">At The Intersection Of Canning Street and Bellavista Drive, Avond</td>
-      <td style="text-align:right;">3,108</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$906,564</td>
-      <td style="text-align:right;color:var(--muted);">$291</td>
-      <td style="min-width:80px;"><div style="height:8px;border-radius:4px;background:var(--accent);width:0%;min-width:4px;"></div></td>
-    </tr><tr>
-      <td style="color:var(--muted);">11</td>
-      <td style="max-width:260px;word-break:break-word;">At The Intersection Of Rosanna Road and Darebin Street, Heidelber</td>
-      <td style="text-align:right;">2,495</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$768,977</td>
-      <td style="text-align:right;color:var(--muted);">$308</td>
-      <td style="min-width:80px;"><div style="height:8px;border-radius:4px;background:var(--accent);width:0%;min-width:4px;"></div></td>
-    </tr><tr>
-      <td style="color:var(--muted);">12</td>
-      <td style="max-width:260px;word-break:break-word;">At The Intersection Of Peel Street And Victoria Street, West Melb</td>
-      <td style="text-align:right;">1,536</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$765,996</td>
-      <td style="text-align:right;color:var(--muted);">$498</td>
-      <td style="min-width:80px;"><div style="height:8px;border-radius:4px;background:var(--accent);width:0%;min-width:4px;"></div></td>
-    </tr><tr>
-      <td style="color:var(--muted);">13</td>
-      <td style="max-width:260px;word-break:break-word;">At The Intersection Of King Street And La Trobe Street, West Melb</td>
-      <td style="text-align:right;">2,410</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$726,324</td>
-      <td style="text-align:right;color:var(--muted);">$301</td>
-      <td style="min-width:80px;"><div style="height:8px;border-radius:4px;background:var(--accent);width:0%;min-width:4px;"></div></td>
-    </tr><tr>
-      <td style="color:var(--muted);">14</td>
-      <td style="max-width:260px;word-break:break-word;">At The Intersection Of Nepean Highway And Davey Street, Frankston</td>
-      <td style="text-align:right;">2,347</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$724,335</td>
-      <td style="text-align:right;color:var(--muted);">$308</td>
-      <td style="min-width:80px;"><div style="height:8px;border-radius:4px;background:var(--accent);width:0%;min-width:4px;"></div></td>
-    </tr><tr>
-      <td style="color:var(--muted);">15</td>
-      <td style="max-width:260px;word-break:break-word;">Princes Freeway, Lara, Avalon Road Bridge, Melbourne Bound - Lane</td>
-      <td style="text-align:right;">2,400</td>
-      <td style="text-align:right;color:var(--accent);font-weight:600;">$718,613</td>
-      <td style="text-align:right;color:var(--muted);">$299</td>
-      <td style="min-width:80px;"><div style="height:8px;border-radius:4px;background:var(--accent);width:0%;min-width:4px;"></div></td>
-    </tr></tbody>
-  </table>
-  </div>
-  <p style="font-size:11px;color:var(--muted);margin-top:10px;">Data: Q4 April-June 2025 only. Annual totals approximately 4x these figures. Source: data.vic.gov.au</p>
-</div>
-
-<script>
-(function(){
-  const pal = ["#f59e0b", "#3b82f6", "#10b981", "#f87171", "#a78bfa", "#34d399", "#60a5fa", "#fbbf24", "#818cf8", "#4ade80"];
-  new Chart(document.getElementById('chartRevPie'), {
-    type: 'doughnut',
-    data: {
-      labels: ["Speed And Red-Light Intersections", "Citylink", "Eastlink", "Geelong Road", "Hume Freeway", "Peninsula Link", "Western Ring Road", "Monash", "Distracted Driver Seatbelt", "Mobile"],
-      datasets: [{ data: [45765314, 4295210, 3043978, 2402248, 3075312, 2529463, 684562, 294809, 8606807, 37990393], backgroundColor: pal, borderColor: 'var(--panel)', borderWidth: 2 }]
-    },
-    options: { responsive:true, plugins: {
-      legend: { position:'bottom', labels:{ color:'var(--text)', font:{ size:11 }, boxWidth:12 } },
-      tooltip: { callbacks: { label: ctx => ' $' + ctx.raw.toLocaleString() } }
-    } }
-  });
-  new Chart(document.getElementById('chartRevBar'), {
-    type: 'bar',
-    data: {
-      labels: ["Speed And Red-Light Intersections", "Citylink", "Eastlink", "Geelong Road", "Hume Freeway", "Peninsula Link", "Western Ring Road", "Monash", "Distracted Driver Seatbelt", "Mobile"],
-      datasets: [{ label:'Infringements', data: [119995, 13253, 10453, 8049, 10191, 8467, 2151, 899, 18097, 131207], backgroundColor: pal, borderRadius:4 }]
-    },
-    options: { responsive:true, indexAxis:'y',
-      plugins: { legend:{ display:false }, tooltip:{ callbacks:{ label: ctx => ' ' + ctx.raw.toLocaleString() + ' infringements' } } },
-      scales: { x:{ ticks:{ color:'var(--muted)' }, grid:{ color:'var(--border)' } },
-                 y:{ ticks:{ color:'var(--muted)', font:{ size:10 } } } }
-    }
-  });
-})();
-<\/script>
-</div>
 
 
 <!-- ===== MAP TAB ===== -->
@@ -1936,7 +1629,7 @@ window.addEventListener('load', function(){
   if(mapTab && mapTab.classList.contains('active')) tryInitMap();
   // Otherwise tryInitMap is called from showTab
 });
-<\/script>
+</script>
 
 </body>
 </html>
