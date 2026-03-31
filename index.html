@@ -865,15 +865,13 @@ const DC=[{"lat":-37.87857,"lng":144.84494,"suburb":"ALTONA","location":"Queen S
 const RM={A:'Speed/Safety',B:'Community Request',C:'School Zone',D:'High Crash Risk',E:'Pedestrian Safety',F:'Road Works',G:'Other'};
 
 // ── Map state ──────────────────────────────────────────────────
-var _srchMap=null, _srchMCG=null, _srchReady=false, _srchTries=0;
+var _srchMap=null, _srchMCG=null;
 
-function initSrchMap(){
-  if(_srchReady)return;
-  // Retry if Leaflet CDN hasn't finished loading yet
-  if(typeof L==='undefined'){
-    if(++_srchTries<25){setTimeout(initSrchMap,200);}
-    return;
-  }
+// Init map on window load (same pattern as working standalone Leaflet projects).
+// The container may be display:none — that is fine. invalidateSize() fixes it
+// the moment the Search tab is shown.
+window.addEventListener('load',function(){
+  if(typeof L==='undefined')return;
   _srchMap=L.map('srchMap',{center:[-37.0,144.5],zoom:7,preferCanvas:true});
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_matter/{z}/{x}/{y}{r}.png',{
     attribution:'&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
@@ -881,9 +879,7 @@ function initSrchMap(){
   }).addTo(_srchMap);
   _srchMCG=L.markerClusterGroup({maxClusterRadius:40,chunkedLoading:true});
   _srchMap.addLayer(_srchMCG);
-  _srchReady=true;
-  setTimeout(function(){_srchMap.invalidateSize(true);},150);
-}
+});
 
 function _makeIcon(col,radius){
   radius=radius||7;
@@ -995,7 +991,10 @@ function showTab(id) {
   document.getElementById('tab-' + id).classList.add('active');
   event.target.classList.add('active');
   if (id === 'search') {
-    setTimeout(initSrchMap, 200);
+    // Map was already inited on window.load — just resize it now it is visible
+    setTimeout(function(){
+      if(_srchMap){_srchMap.invalidateSize(true);}
+    }, 50);
   }
 }
 
