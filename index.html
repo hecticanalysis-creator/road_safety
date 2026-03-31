@@ -7,18 +7,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   :root {
-    --bg: #1a2035;
-    --panel: #242d45;
-    --panel2: #1c2128;
-    --border: #3a4a6b;
-    --text: #dde4f5;
-    --muted: #8090b8;
-    --accent: #f59e0b;
-    --accent2: #2ea043;
-    --accent3: #58a6ff;
-    --red: #f85149;
-    --purple: #bc8cff;
-    --teal: #39d353;
+    --bg:      #eceae4;
+    --panel:   #f8f6f1;
+    --panel2:  #f2efe8;
+    --border:  #d4cfc6;
+    --text:    #26231e;
+    --muted:   #7a7468;
+    --accent:  #b07030;
+    --accent2: #3a6b52;
+    --accent3: #4a6888;
+    --red:     #9e3530;
+    --purple:  #6b4e8a;
+    --teal:    #2e7a5e;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; font-size: 14px; line-height: 1.5; }
@@ -230,11 +230,11 @@
 
   </style>
   <!-- Leaflet map (loaded unconditionally so it's ready when tab opens) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.css"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
-  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+  
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  </script>
 </head>
 <body>
 
@@ -865,105 +865,61 @@ const DC=[{"lat":-37.87857,"lng":144.84494,"suburb":"ALTONA","location":"Queen S
 const RM={A:'Speed/Safety',B:'Community Request',C:'School Zone',D:'High Crash Risk',E:'Pedestrian Safety',F:'Road Works',G:'Other'};
 
 // ── Map state ──────────────────────────────────────────────────
-var _srchMap=null, _srchMCG=null;
+var _srchMap = null, _mapInited = false, _mapMarkers = [];
 
-// Init map on window load (same pattern as working standalone Leaflet projects).
-// The container may be display:none — that is fine. invalidateSize() fixes it
-// the moment the Search tab is shown.
-window.addEventListener('load',function(){
-  if(typeof L==='undefined')return;
-  _srchMap=L.map('srchMap',{center:[-37.0,144.5],zoom:7,preferCanvas:true});
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_matter/{z}/{x}/{y}{r}.png',{
-    attribution:'&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
-    subdomains:'abcd',maxZoom:19
-  }).addTo(_srchMap);
-  _srchMCG=L.markerClusterGroup({maxClusterRadius:40,chunkedLoading:true});
-  _srchMap.addLayer(_srchMCG);
-});
-
-function _makeIcon(col,radius){
-  radius=radius||7;
-  var svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+(radius*2)+'" height="'+(radius*2)+'">'
-    +'<circle cx="'+radius+'" cy="'+radius+'" r="'+(radius-1)+'" fill="'+col+'" stroke="#fff" stroke-width="1.5"/>'
-    +'</svg>';
-  return L.divIcon({
-    html:'<img src="data:image/svg+xml,'+encodeURIComponent(svg)+'" width="'+(radius*2)+'" height="'+(radius*2)+'"/>',
-    iconSize:[radius*2,radius*2],iconAnchor:[radius,radius],className:''
-  });
-}
-var _iconF=null,_iconM=null,_iconD=null;
-function getIcons(){
-  if(!_iconF){
-    _iconF=_makeIcon('#f59e0b',7);
-    _iconM=_makeIcon('#3b82f6',6);
-    _iconD=_makeIcon('#10b981',7);
+function renderSrchMap(hits) {
+  if (!_mapInited) {
+    _srchMap = L.map('srchMap', { zoomControl: true, scrollWheelZoom: true })
+      .setView([-37.0, 144.5], 7);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(_srchMap);
+    _mapInited = true;
   }
-}
+  // Clear old markers
+  _mapMarkers.forEach(function(m){ m.remove(); });
+  _mapMarkers = [];
 
-function updateSrchMap(hits){
-  if(!_srchReady||!_srchMap)return;
-  getIcons();
-  _srchMCG.clearLayers();
-  var layers=[];
-  hits.forEach(function(c){
-    if(c.lat==null||c.lng==null)return;
-    var icon=c.type==='Fixed'?_iconF:(c.type==='Mobile'?_iconM:_iconD);
-    var popup='<b>'+c.type+'</b><br>'+c.suburb+'<br><span style="font-size:11px;">'+c.location+'</span>';
-    if(c.reason)popup+='<br><span style="font-size:10px;color:#aaa;">'+c.reason+' - '+(RM[c.reason]||c.reason)+'</span>';
-    if(c.effective)popup+='<br><span style="font-size:10px;color:#aaa;">Eff: '+c.effective+'</span>';
-    layers.push(L.marker([c.lat,c.lng],{icon:icon}).bindPopup(popup));
-  });
-  _srchMCG.addLayers(layers);
-  if(layers.length&&_srchMap){
-    try{_srchMap.fitBounds(_srchMCG.getBounds().pad(0.1),{maxZoom:14});}catch(e){}
-  }
-}
-
-function doSearch(){
-  var q=(document.getElementById('srchQ').value||'').trim().toUpperCase();
-  var tp=document.getElementById('srchType').value;
-  var rs=document.getElementById('srchReason').value;
-  var so=document.getElementById('srchSort').value;
-  var uf=document.getElementById('chkF').checked&&(tp==='all'||tp==='fixed');
-  var um=document.getElementById('chkM').checked&&(tp==='all'||tp==='mobile');
-  var ud=document.getElementById('chkD').checked&&(tp==='all'||tp==='dds');
-  if(!q){
-    document.getElementById('srchCnt').textContent='';
-    document.getElementById('srchResults').innerHTML='<p style="color:var(--muted);font-size:13px;">Enter a suburb or street name to search.</p>';
-    if(_srchReady&&_srchMCG)_srchMCG.clearLayers();
+  if (!hits || !hits.length) {
+    setTimeout(function(){ _srchMap.invalidateSize(); }, 50);
     return;
   }
-  function ok(c){return((c.suburb&&c.suburb.toUpperCase().includes(q))||(c.location&&c.location.toUpperCase().includes(q)))&&(!rs||c.reason===rs);}
-  var hits=[];
-  if(uf)FC.filter(ok).forEach(function(c){hits.push(Object.assign({},c,{_col:'var(--accent)',_t:'Fixed'}));});
-  if(um)MC.filter(ok).forEach(function(c){hits.push(Object.assign({},c,{_col:'var(--accent2)',_t:'Mobile'}));});
-  if(ud)DC.filter(ok).forEach(function(c){hits.push(Object.assign({},c,{_col:'var(--accent3)',_t:'DDS'}));});
-  if(so==='suburb')hits.sort(function(a,b){return(a.suburb||'').localeCompare(b.suburb||'');});
-  else if(so==='location')hits.sort(function(a,b){return(a.location||'').localeCompare(b.location||'');});
-  document.getElementById('srchCnt').textContent=hits.length?hits.length+' camera'+(hits.length!==1?'s':'')+' found':'';
-  if(!hits.length){
-    document.getElementById('srchResults').innerHTML='<p style="color:var(--muted);font-size:13px;">No results. Try a different suburb or adjust filters.</p>';
-    if(_srchReady&&_srchMCG)_srchMCG.clearLayers();
-    return;
+
+  var bounds = [];
+  hits.forEach(function(c) {
+    if (c.lat == null || c.lng == null) return;
+    var col = c.type==='Fixed' ? '#b07030' : c.type==='Mobile' ? '#4a6888' : '#4a7a5c';
+    var sz = 10;
+    var icon = L.divIcon({
+      className: '',
+      html: '<div style="width:'+sz+'px;height:'+sz+'px;border-radius:50%;background:'+col+';border:2px solid rgba(255,255,255,.8);box-shadow:0 1px 4px rgba(0,0,0,.35);cursor:pointer;"></div>',
+      iconSize: [sz, sz],
+      iconAnchor: [sz/2, sz/2]
+    });
+    var popup = '<div style="font-weight:600;font-size:13px;margin-bottom:3px;">'+c.suburb+'</div>'
+      + '<div style="font-size:11px;color:#555;margin-bottom:4px;">'+c.location+'</div>'
+      + '<div style="font-size:11px;font-weight:600;color:'+col+';">'+c.type+'</div>'
+      + (c.reason ? '<div style="font-size:10px;color:#888;margin-top:2px;">Reason '+c.reason+' — '+(RM[c.reason]||c.reason)+'</div>' : '')
+      + (c.effective ? '<div style="font-size:10px;color:#888;">Effective: '+c.effective+'</div>' : '');
+    var m = L.marker([c.lat, c.lng], { icon: icon })
+      .bindPopup(popup, { maxWidth: 260 })
+      .addTo(_srchMap);
+    _mapMarkers.push(m);
+    bounds.push([c.lat, c.lng]);
+  });
+
+  if (bounds.length) {
+    try { _srchMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 }); } catch(e) {}
   }
-  function hl(t,q){if(!t)return'&#8212;';return t.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')', 'gi'),'<mark style="background:#f59e0b33;color:var(--text);">$1</mark>');}
-  document.getElementById('srchResults').innerHTML=hits.slice(0,150).map(function(c){
-    var ex='';
-    if(c.reason)ex+='<div style="font-size:11px;color:var(--muted);">'+c.reason+' - '+(RM[c.reason]||c.reason)+'</div>';
-    if(c.effective)ex+='<div style="font-size:11px;color:var(--muted);">Effective: '+c.effective+'</div>';
-    return '<div style="background:var(--panel);border:1px solid var(--border);border-left:3px solid '+c._col+';border-radius:6px;padding:10px 12px;cursor:pointer;" onclick="flyTo('+c.lat+','+c.lng+')">'
-      +'<div style="font-size:10px;font-weight:700;color:'+c._col+';text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;">'+c._t+'</div>'
-      +'<div style="font-weight:600;color:var(--text);font-size:13px;margin-bottom:2px;">'+hl(c.suburb||'',q)+'</div>'
-      +'<div style="color:var(--muted);font-size:12px;line-height:1.5;margin-bottom:3px;">'+hl(c.location||'',q)+'</div>'
-      +ex+'</div>';
-  }).join('');
-  if(hits.length>150)document.getElementById('srchResults').innerHTML+='<div style="color:var(--muted);font-size:12px;padding:10px;">Showing first 150 of '+hits.length+' results — refine your search.</div>';
-  updateSrchMap(hits);
+  // Always invalidateSize — critical for hidden-tab maps (matches working file pattern)
+  setTimeout(function(){ _srchMap.invalidateSize(); }, 50);
 }
 
-function flyTo(lat,lng){
-  if(!_srchReady||!_srchMap)return;
-  _srchMap.setView([lat,lng],16);
+function flyTo(lat, lng) {
+  if (!_srchMap || !_mapInited) return;
+  _srchMap.setView([lat, lng], 16);
 }
 </script>
 </div>
@@ -991,19 +947,16 @@ function showTab(id) {
   document.getElementById('tab-' + id).classList.add('active');
   event.target.classList.add('active');
   if (id === 'search') {
-    // Map was already inited on window.load — just resize it now it is visible
-    setTimeout(function(){
-      if(_srchMap){_srchMap.invalidateSize(true);}
-    }, 50);
+    setTimeout(function(){ if(_srchMap) _srchMap.invalidateSize(); }, 50);
   }
 }
 
-Chart.defaults.color = '#8b949e';
-Chart.defaults.borderColor = '#30363d';
+Chart.defaults.color = '#6a6460';
+Chart.defaults.borderColor = '#d4cfc6';
 Chart.defaults.font.family = '-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif';
 Chart.defaults.font.size = 11;
 
-const palette = ['#f0a30a','#58a6ff','#2ea043','#f85149','#bc8cff','#39d353','#ffa657','#79c0ff','#56d364','#ff7b72'];
+const palette = ['#b07030','#4a6888','#3a6b52','#9e3530','#6b4e8a','#2e7a5e','#c09050','#5a7ea8','#5a8a6a','#be5a5a'];
 
 // ---- OVERVIEW CHARTS ----
 // Warnings vs infringements grouped bar
