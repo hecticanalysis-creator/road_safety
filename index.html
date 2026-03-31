@@ -853,8 +853,8 @@
   <div id="srchResults" style="flex:1;min-width:260px;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;max-height:500px;overflow-y:auto;padding-right:4px;">
     <p style="color:var(--muted);font-size:13px;">Enter a suburb or street name to search.</p>
   </div>
-  <div id="srchMapWrap" style="flex:1;min-width:280px;min-height:460px;display:flex;flex-direction:column;border-radius:8px;overflow:hidden;border:1px solid var(--border);">
-    <div id="srchMap" style="flex:1;width:100%;min-height:460px;"></div>
+  <div id="srchMapWrap" style="flex:1;min-width:280px;border-radius:8px;border:1px solid var(--border);">
+    <div id="srchMap" style="height:460px;width:100%;border-radius:6px;"></div>
   </div>
 </div>
 
@@ -865,19 +865,13 @@ const DC=[{"lat":-37.87857,"lng":144.84494,"suburb":"ALTONA","location":"Queen S
 const RM={A:'Speed/Safety',B:'Community Request',C:'School Zone',D:'High Crash Risk',E:'Pedestrian Safety',F:'Road Works',G:'Other'};
 
 // ── Map state ──────────────────────────────────────────────────
-var _srchMap=null, _srchMCG=null, _srchReady=false;
+var _srchMap=null, _srchMCG=null, _srchReady=false, _srchTries=0;
 
 function initSrchMap(){
   if(_srchReady)return;
+  // Retry if Leaflet CDN hasn't finished loading yet
   if(typeof L==='undefined'){
-    console.warn('Leaflet not loaded yet');
-    return;
-  }
-  var el=document.getElementById('srchMap');
-  if(!el)return;
-  // Ensure container has height before init
-  if(el.offsetHeight<10){
-    requestAnimationFrame(function(){setTimeout(initSrchMap,80);});
+    if(++_srchTries<25){setTimeout(initSrchMap,200);}
     return;
   }
   _srchMap=L.map('srchMap',{center:[-37.0,144.5],zoom:7,preferCanvas:true});
@@ -888,8 +882,7 @@ function initSrchMap(){
   _srchMCG=L.markerClusterGroup({maxClusterRadius:40,chunkedLoading:true});
   _srchMap.addLayer(_srchMCG);
   _srchReady=true;
-  setTimeout(function(){_srchMap.invalidateSize(true);},200);
-  setTimeout(function(){_srchMap.invalidateSize(true);},700);
+  setTimeout(function(){_srchMap.invalidateSize(true);},150);
 }
 
 function _makeIcon(col,radius){
@@ -1002,9 +995,7 @@ function showTab(id) {
   document.getElementById('tab-' + id).classList.add('active');
   event.target.classList.add('active');
   if (id === 'search') {
-    setTimeout(function() {
-      if (typeof initSrchMap === 'function') initSrchMap();
-    }, 300);
+    setTimeout(initSrchMap, 200);
   }
 }
 
